@@ -318,7 +318,7 @@
       "intq": {},
       "is_param": false,
       "mpool_id": 0,
-      "name": "serving_default_keras_tensor0_output_array",
+      "name": "serving_default_keras_tensor_70_output_array",
       "nbits": 32,
       "offset_start": 60,
       "qmn": {},
@@ -333,44 +333,44 @@
   ],
   "environment": {
     "generated_model": {
-      "generated_time": "2025-03-12T14:29:53-0700",
+      "generated_time": "2025-03-13T13:50:30-0700",
       "model_files": [
         {
           "name": "network_data_params.h",
-          "signature": "0x310a8dbe2a686086a5b558d7b9864508"
+          "signature": "0x6dccceefba87dbcfcc9fe29a6e8141c4"
         },
         {
           "name": "network_data_params.c",
-          "signature": "0x828ab92aafffaf7860bf218040a4026f"
+          "signature": "0xee7685d1aabc4248be83233b0019e444"
         },
         {
           "name": "network_data.h",
-          "signature": "0x7f4ba0d4596276a28a565b87cd31d834"
+          "signature": "0x0bb72c01d7cb3fd45d1fcfabceaa9a60"
         },
         {
           "name": "network_data.c",
-          "signature": "0xf96d5e730576e9d0252f6ff356c88b87"
+          "signature": "0x4e4ceed9f023c4070b7748d936cc5d2a"
         },
         {
           "name": "network_config.h",
-          "signature": "0xbdde3670d8de3ea0718ed2c4fccb7b0d"
+          "signature": "0x1f0ca4d81aa3da398688f4d284fd1fa4"
         },
         {
           "name": "network.h",
-          "signature": "0xb5c2fc4e3a5948263f12c79c91a1379c"
+          "signature": "0xe1be343fa6b352813aa19b97fe8cc840"
         },
         {
           "name": "network.c",
-          "signature": "0xdac7d562abda867f518e0a06c74dac6e"
+          "signature": "0xfd876f2d3221e880cefef446ecaf150e"
         }
       ],
       "name": "network"
     },
-    "network_signature": "0xe9e4602ad995badc",
+    "network_signature": "0xdf562ba554af6d5e",
     "test_name": "",
     "tools": [
       {
-        "arguments": "generate --target stm32u5 --name network -m /home/alnur/Downloads/sine_model.tflite --compression none --verbosity 1 --workspace /tmp/mxAI_workspace275045192122188833105084272313112 --output /home/alnur/.stm32cubemx/network_output --binary --address 0x08110000",
+        "arguments": "generate --target stm32u5 --name network -m /home/alnur/Downloads/sine_model.tflite --compression none --verbosity 1 --workspace /tmp/mxAI_workspace846536331984117660001812501481119 --output /home/alnur/.stm32cubemx/network_output --binary --address 0x08110000",
         "environment": [
           "STATS_TYPE=X-CUBE-AI"
         ],
@@ -378,7 +378,7 @@
           "model_files": [
             {
               "name": "sine_model.tflite",
-              "signature": "0x8d9ce74a8904b35d5dea73cc8d5dee36"
+              "signature": "0xd233c5d4bf350fd460f6fda8a5e0408d"
             }
           ],
           "n_params": 321,
@@ -589,7 +589,7 @@
       ],
       "original_inputs": [
         {
-          "serving_default_keras_tensor0": {
+          "serving_default_keras_tensor_70": {
             "data_type": "float32",
             "shape": "(BATCH: 1, CH: 1)"
           }

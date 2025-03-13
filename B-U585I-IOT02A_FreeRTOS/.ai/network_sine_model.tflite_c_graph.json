@@ -5,7 +5,7 @@
             "buffer_data_size": 0,
             "buffer_offsets": [
                 {
-                    "buffer_name": "serving_default_keras_tensor0_output_array",
+                    "buffer_name": "serving_default_keras_tensor_70_output_array",
                     "offset": 60,
                     "size": 4
                 },
@@ -42,7 +42,7 @@
         }
     },
     "activations_alignment": 4,
-    "arguments": "generate --target stm32u5 --name network -m /home/alnur/Downloads/sine_model.tflite --compression none --verbosity 1 --workspace /tmp/mxAI_workspace275045192122188833105084272313112 --output /home/alnur/.stm32cubemx/network_output --binary --address 0x08110000",
+    "arguments": "generate --target stm32u5 --name network -m /home/alnur/Downloads/sine_model.tflite --compression none --verbosity 1 --workspace /tmp/mxAI_workspace846536331984117660001812501481119 --output /home/alnur/.stm32cubemx/network_output --binary --address 0x08110000",
     "c_activations_count": 1,
     "c_arrays": [
         {
@@ -330,13 +330,13 @@
             "is_const": false,
             "mem_pool": "activations",
             "n_items": 1,
-            "name": "serving_default_keras_tensor0_output_array",
+            "name": "serving_default_keras_tensor_70_output_array",
             "offset": 60,
             "scale": [],
             "size": 1,
             "tensors": [
                 {
-                    "name": "serving_default_keras_tensor0_output",
+                    "name": "serving_default_keras_tensor_70_output",
                     "shape": [
                         1
                     ]
@@ -363,7 +363,7 @@
             "rom": 128,
             "tensors": {
                 "inputs": [
-                    "serving_default_keras_tensor0_output"
+                    "serving_default_keras_tensor_70_output"
                 ],
                 "outputs": [
                     "gemm_0_output"
@@ -520,9 +520,9 @@
         ]
     },
     "data_alignment": 4,
-    "date_time": "2025-03-12T14:29:53-0700",
+    "date_time": "2025-03-13T13:50:30-0700",
     "inputs": [
-        "serving_default_keras_tensor0_output"
+        "serving_default_keras_tensor_70_output"
     ],
     "macc": 353,
     "memory_footprint": {
@@ -543,7 +543,7 @@
     "memory_pools": [],
     "model_fmt": "float",
     "model_name": "sine_model",
-    "model_signature": "0x8d9ce74a8904b35d5dea73cc8d5dee36",
+    "model_signature": "0xd233c5d4bf350fd460f6fda8a5e0408d",
     "outputs": [
         "gemm_2_output"
     ],

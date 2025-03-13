@@ -1,7 +1,7 @@
 {
     "_allocate_inputs": 4,
     "_allocate_outputs": 4,
-    "cli_parameters": "generate --target stm32u5 --name network -m /home/alnur/Downloads/sine_model.tflite --compression none --verbosity 1 --workspace /tmp/mxAI_workspace275045192122188833105084272313112 --output /home/alnur/.stm32cubemx/network_output --binary --address 0x08110000",
+    "cli_parameters": "generate --target stm32u5 --name network -m /home/alnur/Downloads/sine_model.tflite --compression none --verbosity 1 --workspace /tmp/mxAI_workspace846536331984117660001812501481119 --output /home/alnur/.stm32cubemx/network_output --binary --address 0x08110000",
     "cli_version": {
         "extra": "20049",
         "major": 2,
@@ -11,14 +11,14 @@
     "cli_version_str": "2.0.0-20049",
     "code_size": 0,
     "compression": [],
-    "date_time": "2025-03-12T14:29:53-0700",
+    "date_time": "2025-03-13T13:50:30-0700",
     "error": 0,
     "error_str": [],
     "exec_cmd": "generate",
     "exec_duration": 0.0,
-    "hash": "0x8d9ce74a8904b35d5dea73cc8d5dee36",
+    "hash": "0xd233c5d4bf350fd460f6fda8a5e0408d",
     "inputs": [
-        "serving_default_keras_tensor0"
+        "serving_default_keras_tensor_70"
     ],
     "layers": [
         {
@@ -43,7 +43,7 @@
             },
             "id": 0,
             "inputs": [],
-            "name": "serving_default_keras_tensor0",
+            "name": "serving_default_keras_tensor_70",
             "original": "",
             "type": "Input"
         },
@@ -57,7 +57,7 @@
             },
             "id": 0,
             "inputs": [],
-            "name": "sequential_1_dense_1_MatMul",
+            "name": "sequential_1_1_dense_3_1_MatMul",
             "original": "",
             "type": "Placeholder"
         },
@@ -71,7 +71,7 @@
             },
             "id": 0,
             "inputs": [],
-            "name": "sequential_1_dense_1_BiasAdd_ReadVariableOp",
+            "name": "sequential_1_1_dense_3_1_BiasAdd_ReadVariableOp",
             "original": "",
             "type": "Placeholder"
         },
@@ -94,9 +94,9 @@
             },
             "id": 0,
             "inputs": [
-                "serving_default_keras_tensor0",
-                "sequential_1_dense_1_MatMul",
-                "sequential_1_dense_1_BiasAdd_ReadVariableOp"
+                "serving_default_keras_tensor_70",
+                "sequential_1_1_dense_3_1_MatMul",
+                "sequential_1_1_dense_3_1_BiasAdd_ReadVariableOp"
             ],
             "name": "gemm_0",
             "original": "FULLY_CONNECTED",
@@ -154,7 +154,7 @@
             },
             "id": 1,
             "inputs": [],
-            "name": "sequential_1_dense_1_2_BiasAdd_ReadVariableOp",
+            "name": "arith_constant3",
             "original": "",
             "type": "Placeholder"
         },
@@ -179,7 +179,7 @@
             "inputs": [
                 "nl_0_nl",
                 "arith_constant1",
-                "sequential_1_dense_1_2_BiasAdd_ReadVariableOp"
+                "arith_constant3"
             ],
             "name": "gemm_1",
             "original": "FULLY_CONNECTED",
@@ -291,7 +291,7 @@
         {
             "c_size": 4,
             "c_type": "float",
-            "name": "serving_default_keras_tensor0"
+            "name": "serving_default_keras_tensor_70"
         }
     ],
     "rom_n_macc": 353,

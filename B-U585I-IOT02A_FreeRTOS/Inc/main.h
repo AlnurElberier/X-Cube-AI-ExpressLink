@@ -75,7 +75,7 @@ void Error_Handler(void);
 #define DEMO_SENSORS_ENV 0
 #define PRIORITY_OTATask (tskIDLE_PRIORITY + 3)
 #define DEMO_SENSORS_MOTION 0
-#define TOPIC_INDEX_PubSub 0
+#define TOPIC_INDEX_PubSub 1
 #define TOPIC_INDEX_ENV 2
 #define _ExpressLink_EVENT_Pin GPIO_PIN_15
 #define _ExpressLink_EVENT_GPIO_Port GPIOD
