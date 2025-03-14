@@ -18,7 +18,7 @@
 #include "network_data.h"
 #include "ai_platform_interface.h"
 
-#define AI_NETWORK_DATA_WEIGHTS_ADDR     (0x08110000)
+#define AI_NETWORK_DATA_WEIGHTS_ADDR     (0x080FC200)
 
 AI_API_DECLARE_BEGIN
 ai_buffer g_network_data_map_activations[AI_NETWORK_DATA_ACTIVATIONS_COUNT] = {

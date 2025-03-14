@@ -28,6 +28,7 @@ OUTPUTFILE = "../../../{board_name}_FreeRTOS/Debug/signed_binary.bin"
 SIGGEN = "../../../{board_name}_SecureBoot/Src/SigGen.c"
 PRIVATEKEY = "./private_key.pem"
 PUBLICKEY = "./public_key.pem"
+TYPE = "APPLICATION"
 
 parser = argparse.ArgumentParser(description='Script to append header and sign firmware image with local keys')
 parser.add_argument("--board-name",     help="Name of board",                                                       required=True)
@@ -37,6 +38,7 @@ parser.add_argument("--output-file",    help="Path to desired output signed bina
 parser.add_argument("--sig-gen",        help="Path to sign gen file(default: "+SIGGEN+")",                          required=False, default=SIGGEN)
 parser.add_argument("--private-key",    help="Path to private key pem file",                                        required=False, default=PRIVATEKEY)
 parser.add_argument("--public-key",     help="Path to public key pem file",                                         required=False, default=PUBLICKEY)
+parser.add_argument("--type",           help="Target type (APPLICATION || WEIGHTS)",                                required=False, default=TYPE)
 
 args = parser.parse_args()
 
@@ -163,6 +165,10 @@ def main(argv):
     # Add the firmware revision number to the firmware
     app_version = get_version()
     header = add_string(app_version, header)
+    header = add_padding(16, header)
+
+    target_type = args.type
+    header = add_string(target_type, header)
     header = add_padding(512, header)
 
     header += bin

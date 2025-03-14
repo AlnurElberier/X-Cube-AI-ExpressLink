@@ -67,7 +67,8 @@ PKA_ECDSAVerifInTypeDef ver_in = { 0 };
 uint8_t SHA256Digest[32]       = { 0 };
 
 header_t app1Header;
-header_t app2Header;
+header_t hotaHeader;
+header_t weightsHeader;
 
 pFunction JumpToApplication;
 uint32_t JumpAddress;
@@ -259,6 +260,58 @@ uint8_t image_signature_verify(uint32_t size, const uint8_t *aInput)
   return HEADER_SUCCESS;
 }
 
+
+uint8_t verify_header(uint32_t header_address, header_t *header)
+{
+#if (DEBUG)
+    printf("[INFO] HEADER_START_ADDRESS 0x%08X\n", (int)header_address);
+#endif
+
+    // Check Header version and construct app1Header
+    if (header_get_data(header_address, header) == HEADER_ERROR)
+    {
+#if (DEBUG)
+        printf("[ERROR] %s verification failed\r\n", header->pType);
+#endif
+        return HEADER_ERROR;
+    }
+
+#if (DEBUG)
+    printf("[INFO] %s Header version success\r\n", header->pType);
+#endif
+
+    // Check app1Header size, board and revision
+    if (validate_header(header) == HEADER_ERROR)
+    {
+#if (DEBUG)
+        printf("[ERROR] %s Header size, board, and revision validation failed\r\n", header->pType);
+#endif
+        return HEADER_ERROR;
+    }
+
+#if (DEBUG)
+    printf("[INFO] %s Header size, board, and revision verification successful\r\n", header->pType);
+#endif
+
+    // Check App signature
+    uint8_t status = image_signature_verify(atoi(header->pSize), (const uint8_t*)header_address);
+
+    if (status == HEADER_ERROR)
+    {
+#if (DEBUG)
+        printf("[ERROR] %s signature verification failed\r\n", header->pType);
+#endif
+        return HEADER_ERROR;
+    }
+
+#if (DEBUG)
+    printf("[INFO] %s signature verification successful\r\n", header->pType);
+#endif
+
+    return HEADER_SUCCESS;
+}
+
+
 /* USER CODE END 0 */
 
 /**
@@ -306,69 +359,27 @@ int main(void)
 #endif
   /* USER CODE BEGIN 2 */
 
-#if (DEBUG)
-    printf("[INFO] APP_HEADER_START_ADDRESS 0x%08X\n", (int)APP_HEADER_START_ADDRESS);
-#endif
-  // Check Header version and construct app1Header
-  if (header_get_data(APP_HEADER_START_ADDRESS, &app1Header) == HEADER_ERROR)
-  {
-#if (DEBUG)
-    printf("[ERROR] Application boot header verification failed\r\n");
-#endif
-    while (1)
-      ;
-  }
+  uint8_t status;
 
-#if (DEBUG)
-  printf("[INFO] Application boot header version success\r\n");
-#endif
+  status = verify_header((uint32_t) APP_HEADER_START_ADDRESS, &app1Header);
+  if (status == HEADER_ERROR) while(1);
 
-  // Check app1Header size, board and revision
-  if (validate_header(&app1Header) == HEADER_ERROR)
-  {
-#if (DEBUG)
-    printf("[ERROR] Application size, board, and revision validation failed\r\n");
-#endif
-    while (1)
-    {
-      ;
-    }
-  }
+  status = verify_header((uint32_t) WEIGHTS_HEADER_START_ADDRESS, &weightsHeader);
+  if (status == HEADER_ERROR) while(1);
 
-#if (DEBUG)
-  printf("[INFO] Application size, board, and revision verification successful\r\n");
-#endif
-
-  // Check App one signature
-  uint8_t status = image_signature_verify(atoi(app1Header.pSize), (const uint8_t*) APP_HEADER_START_ADDRESS);
-
-  if (status == HEADER_ERROR)
-  {
-#if (DEBUG)
-    printf("[ERROR] Application signature verification failed\r\n");
-#endif
-    while (1)
-    {
-      ;
-    }
-  }
-
-#if (DEBUG)
-  printf("[INFO] Application signature verification successful\r\n");
-#endif
 
 #if (DEBUG)
   printf("[INFO] HOTA_HEADER_START_ADDRESS 0x%08X\n", (int)HOTA_HEADER_START_ADDRESS);
 #endif
 
   // Check for a valid OTA
-  if (header_get_data(HOTA_HEADER_START_ADDRESS, &app2Header) == HEADER_SUCCESS)
+  if (header_get_data(HOTA_HEADER_START_ADDRESS, &hotaHeader) == HEADER_SUCCESS)
   {
 #if (DEBUG)
     printf("[INFO] HOTA available\r\n");
 #endif
 
-    if (validate_ota(&app1Header, &app2Header) == HEADER_ERROR)
+    if (validate_ota(&app1Header, &hotaHeader) == HEADER_ERROR)
     {
 #if (DEBUG)
       printf("[ERROR] HOTA boot header verification failed\r\n");
@@ -383,7 +394,7 @@ int main(void)
     }
 
     // Check App two signature
-    status = image_signature_verify(atoi(app2Header.pSize), (const uint8_t*) HOTA_HEADER_START_ADDRESS);
+    status = image_signature_verify(atoi(hotaHeader.pSize), (const uint8_t*) HOTA_HEADER_START_ADDRESS);
 
     if (status == HEADER_ERROR)
     {

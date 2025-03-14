@@ -27,6 +27,8 @@ uint8_t header_get_data(uint32_t address, header_t *pHeader)
   pHeader->pSize = (char*) (address + SIZE_ADDRESS);
   pHeader->pBoard = (char*) (address + BOARD_NAME_ADDRESS);
   pHeader->pRev = (char*) (address + REVISION_ADDRESS);
+  pHeader->pType = (char*) (address + TYPE_ADDRESS);
+
 
 #if defined(HAL_ICACHE_MODULE_ENABLED)
   HAL_ICACHE_Enable();
@@ -37,13 +39,8 @@ uint8_t header_get_data(uint32_t address, header_t *pHeader)
 
 uint8_t validate_header(header_t *pHeader)
 {
+  // Verify Board Name
   if (strcmp(pHeader->pBoard, BOARD_NAME) != 0)
-  {
-    return HEADER_ERROR;
-  }
-
-  // Verify size is less than or equal to max
-  if (atoi(pHeader->pSize) > MAX_HOTA_IMAGE_SIZE)
   {
     return HEADER_ERROR;
   }
@@ -55,7 +52,31 @@ uint8_t validate_header(header_t *pHeader)
     return HEADER_ERROR;
   }
 
+  // If Type is Application
+  if (strcmp((char*) APP_TYPE, pHeader->pType) == 0)
+  {
+    // Verify application size
+    if (atoi(pHeader->pSize) > MAX_HOTA_IMAGE_SIZE)
+    {
+      return HEADER_ERROR;
+    }
+  }
+  // If Type is Weights
+  else if (strcmp((char*) WEIGHTS_TYPE, pHeader->pType) == 0)
+  {
+    // Verify Weights size
+    if (atoi(pHeader->pSize) > MAX_WEIGHTS_SIZE)
+    {
+      return HEADER_ERROR;
+    }
+  }
+  else // If Type is invalid
+  {
+    return HEADER_ERROR;
+  }
+
   return HEADER_SUCCESS;
+
 }
 
 //This should take two header structures

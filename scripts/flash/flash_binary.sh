@@ -39,4 +39,4 @@ echo "Board: $BOARD"
 $ST_PROGRAMMER_PATH -c port=swd INDEX=0 mode=UR -e ALL
 $ST_PROGRAMMER_PATH -C port=SWD -W ../../${BOARD}_SecureBoot/Debug/${BOARD}_SecureBoot.bin 0x08000000 -V
 $ST_PROGRAMMER_PATH -c port=SWD -W ../../${BOARD}_FreeRTOS/Debug/signed_binary.bin 0x08008000 -V 
-$ST_PROGRAMMER_PATH -c port=SWD -W ../../${BOARD}_FreeRTOS/network_data.bin 0x08110000 -V -Rst
+$ST_PROGRAMMER_PATH -c port=SWD -W ../../${BOARD}_FreeRTOS/signed_network_data.bin 0x080FC000 -V -Rst

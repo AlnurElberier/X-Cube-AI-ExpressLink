@@ -21,7 +21,10 @@
 
 #include "main.h"
 
-#define BOOT_HEADER  "SECUREBOOT10" /* Header Secure boot revision 1.0  */
+#define BOOT_HEADER         "SECUREBOOT10" /* Header Secure boot revision 1.0  */
+
+#define APP_TYPE            "APPLICATION"
+#define WEIGHTS_TYPE        "WEIGHTS"
 
 #define APP  1
 #define HOTA 2
@@ -36,11 +39,18 @@
 #define MAX_LENGTH_SIZE       0x10
 #define MAX_LENGTH_BOARD      0x10
 #define MAX_LENGTH_REV        0x10
+#define MAX_LENGTH_TYPE       0x10
 
 #define HEADER_ADDRESS        0
 #define SIZE_ADDRESS          (HEADER_ADDRESS     + MAX_LENGTH_HEADER )
 #define BOARD_NAME_ADDRESS    (SIZE_ADDRESS       + MAX_LENGTH_SIZE   )
 #define REVISION_ADDRESS      (BOARD_NAME_ADDRESS + MAX_LENGTH_BOARD  )
+#define TYPE_ADDRESS          (REVISION_ADDRESS   + MAX_LENGTH_REV    )
+
+#define MAX_WEIGHTS_SIZE              1 * FLASH_PAGE_SIZE
+#define WEIGHTS_HEADER_START_ADDRESS  (FLASH_BASE + FLASH_BANK_SIZE - (FLASH_PAGE_SIZE) - MAX_WEIGHTS_SIZE)
+#define METADATA_FLASH_BANK           (FLASH_N_PAGES_PER_BANK - 1)
+
 
 #if defined(__STM32H5xx_HAL_H)
       #define MAX_HOTA_IMAGE_SIZE           ((FLASH_SIZE/2) - SECURE_BOOT_SIZE - FLASH_SECTOR_SIZE)
@@ -93,6 +103,7 @@ typedef struct header_t
   char *pSize;
   char *pBoard;
   char *pRev;
+  char *pType;
 }header_t;
 
 uint8_t validate_header(header_t *pHEADER);
