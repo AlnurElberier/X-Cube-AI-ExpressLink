@@ -191,6 +191,16 @@ static HAL_StatusTypeDef ota_flash_erase(uint8_t app)
 
 	  status = HAL_FLASHEx_Erase(&EraseInitStruct, &PageError);
   }
+  else if (app == WEIGHTS)
+  {
+    EraseInitStruct.NbPages   = (MAX_WEIGHTS_SIZE / FLASH_PAGE_SIZE);
+    EraseInitStruct.Page      =  WEIGHTS_START_PAGE;
+#if defined(FLASH_OPTR_DUALBANK)
+    EraseInitStruct.Banks     = 1;
+#endif
+
+    status = HAL_FLASHEx_Erase(&EraseInitStruct, &PageError);
+  }
 
   HAL_FLASH_Lock();
 
@@ -416,17 +426,38 @@ int main(void)
     printf("[INFO] Valid HOTA available\r\n");
 #endif
 
-    //Erasing App one
-#if (DEBUG)
-    printf("[INFO] Erasing Application\r\n");
-#endif
-    status = ota_flash_erase(APP);
+    if (strcmp((char*) APP_TYPE, hotaHeader.pType) == 0)
+    {
+          // Erase App one
+      #if (DEBUG)
+          printf("[INFO] Erasing Application\r\n");
+      #endif
+          status = ota_flash_erase(APP);
 
-    // Copy app two in place of app one
-#if (DEBUG)
-    printf("[INFO] Copying HOTA in place of Application\r\n");
-#endif
-    status = ota_flash_write((const uint32_t) APP_HEADER_START_ADDRESS, (uint8_t*) HOTA_HEADER_START_ADDRESS, (const uint32_t) MAX_HOTA_IMAGE_SIZE);
+          // Copy hota in place of app one
+      #if (DEBUG)
+          printf("[INFO] Copying HOTA in place of Application\r\n");
+      #endif
+          status = ota_flash_write((const uint32_t) APP_HEADER_START_ADDRESS, (uint8_t*) HOTA_HEADER_START_ADDRESS, (const uint32_t) MAX_HOTA_IMAGE_SIZE);
+    }
+    else if (strcmp((char*) WEIGHTS_TYPE, hotaHeader.pType) == 0)
+    {
+      #if (DEBUG)
+          printf("[INFO] Erasing Weights\r\n");
+      #endif
+          // Erase Weights
+          status = ota_flash_erase(WEIGHTS);
+
+          // Copy hota in place of weights
+      #if (DEBUG)
+          printf("[INFO] Copying HOTA in place of Application\r\n");
+      #endif
+          status = ota_flash_write((const uint32_t) WEIGHTS_HEADER_START_ADDRESS, (uint8_t*) HOTA_HEADER_START_ADDRESS, (const uint32_t) MAX_WEIGHTS_SIZE);
+    }
+    else
+    {
+      printf("[ERROR] Invalid HOTA Type: %s\r\n", hotaHeader.pType);
+    }
 
     // Erase APP two
 #if (DEBUG)

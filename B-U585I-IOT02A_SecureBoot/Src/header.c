@@ -95,8 +95,25 @@ uint8_t validate_ota(header_t *app1, header_t *app2)
     return HEADER_ERROR;
   }
 
-  // Verify size is less than or equal to max
-  if (atoi(app2->pSize) > MAX_HOTA_IMAGE_SIZE)
+  // If Type is Application
+  if (strcmp((char*) APP_TYPE, app2->pType) == 0)
+  {
+    // Verify application size
+    if (atoi(app2->pSize) > MAX_HOTA_IMAGE_SIZE)
+    {
+      return HEADER_ERROR;
+    }
+  }
+  // If Type is Weights
+  else if (strcmp((char*) WEIGHTS_TYPE, app2->pType) == 0)
+  {
+    // Verify Weights size
+    if (atoi(app2->pSize) > MAX_WEIGHTS_SIZE)
+    {
+      return HEADER_ERROR;
+    }
+  }
+  else
   {
     return HEADER_ERROR;
   }
